@@ -1,0 +1,1475 @@
+/* ==================== RESET & BASE ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: 'Playfair Display', serif;
+    cursor: default;
+}
+
+/* ==================== SCENE BASE ==================== */
+.scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.5s ease-in-out, visibility 1.5s;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+}
+
+.bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: scale(1.1);
+    transition: transform 8s ease-out;
+}
+
+.scene.active .bg-image {
+    transform: scale(1);
+    animation: kenBurns 20s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurns {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.08) translate(-1%, -1%); }
+}
+
+.scene-content {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ==================== FILM GRAIN EFFECT ==================== */
+.film-grain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0.15;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    animation: grain 0.5s steps(10) infinite;
+}
+
+@keyframes grain {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-2%, -2%); }
+    20% { transform: translate(2%, 2%); }
+    30% { transform: translate(-1%, 1%); }
+    40% { transform: translate(1%, -1%); }
+    50% { transform: translate(-2%, 2%); }
+    60% { transform: translate(2%, -2%); }
+    70% { transform: translate(-1%, -1%); }
+    80% { transform: translate(1%, 1%); }
+    90% { transform: translate(-2%, -1%); }
+}
+
+/* ==================== OLD FILM FRAME ==================== */
+.old-film-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 4;
+    border: 20px solid transparent;
+    border-image: linear-gradient(to bottom, 
+        rgba(0,0,0,0.8) 0%, 
+        rgba(0,0,0,0.3) 10%,
+        rgba(0,0,0,0) 20%,
+        rgba(0,0,0,0) 80%,
+        rgba(0,0,0,0.3) 90%,
+        rgba(0,0,0,0.8) 100%) 1;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+}
+
+/* ==================== DUST PARTICLES ==================== */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.dust-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 215, 0, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: floatParticle linear infinite;
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-10vh) translateX(100px) scale(0);
+        opacity: 0;
+    }
+}
+
+/* ==================== MUSIC CONTROL ==================== */
+.music-control {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    font-size: 20px;
+}
+
+.music-control:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.music-control.playing {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+    50% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+}
+
+/* ==================== NAV DOTS ==================== */
+.nav-dots {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dot.active {
+    background: rgba(255, 215, 0, 0.9);
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.dot:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* ==================== PROGRESS BAR ==================== */
+.progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffd700, #ff6b6b);
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+/* ==================== OPENING SCENE ==================== */
+#scene-opening {
+    background: #000;
+}
+
+#scene-opening .bg-image {
+    opacity: 0;
+    transition: opacity 2s ease 3s;
+}
+
+#scene-opening.active .bg-image {
+    opacity: 0.6;
+}
+
+.opening-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.film-reel-container {
+    position: absolute;
+    top: 10%;
+    opacity: 0;
+    animation: fadeInReel 2s ease 0.5s forwards;
+}
+
+.film-reel {
+    width: 120px;
+    height: 120px;
+    animation: spinReel 3s linear infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+}
+
+@keyframes spinReel {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInReel {
+    to { opacity: 1; }
+}
+
+.projector-light {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 400px;
+    background: linear-gradient(180deg, 
+        rgba(255, 215, 0, 0.3) 0%,
+        rgba(255, 215, 0, 0.1) 50%,
+        transparent 100%);
+    clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+    opacity: 0;
+    animation: lightBeam 4s ease 1s forwards;
+    pointer-events: none;
+}
+
+@keyframes lightBeam {
+    0% { opacity: 0; transform: translateX(-50%) scaleY(0); }
+    50% { opacity: 0.6; transform: translateX(-50%) scaleY(1); }
+    100% { opacity: 0.4; transform: translateX(-50%) scaleY(1); }
+}
+
+.opening-text-container {
+    text-align: center;
+    z-index: 10;
+}
+
+.opening-line1 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: rgba(255, 215, 0, 0.9);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeInUp 2s ease 2s forwards, glowText 3s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.opening-line2 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    color: #fff;
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeInUp 2s ease 3s forwards, glowText 3s ease-in-out infinite 1s;
+    text-shadow: 0 0 30px rgba(255, 107, 107, 0.6);
+}
+
+.opening-line2 .highlight {
+    color: #ff6b6b;
+    text-shadow: 0 0 40px rgba(255, 107, 107, 0.8);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glowText {
+    0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+    50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4); }
+}
+
+/* Curtain Animation */
+.curtain-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.curtain {
+    position: absolute;
+    top: 0;
+    width: 55%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 3s ease-in-out 4s;
+}
+
+.curtain-left {
+    left: 0;
+    transform: translateX(0);
+}
+
+.curtain-right {
+    right: 0;
+    transform: translateX(0) scaleX(-1);
+}
+
+#scene-opening.active .curtain-left {
+    animation: openCurtainLeft 3s ease-in-out 4s forwards;
+}
+
+#scene-opening.active .curtain-right {
+    animation: openCurtainRight 3s ease-in-out 4s forwards;
+}
+
+@keyframes openCurtainLeft {
+    to { transform: translateX(-100%); }
+}
+
+@keyframes openCurtainRight {
+    to { transform: translateX(100%) scaleX(-1); }
+}
+
+.click-to-start {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 4px;
+    opacity: 0;
+    animation: fadeInUp 2s ease 6s forwards, blink 2s ease-in-out infinite 7s;
+    z-index: 30;
+    cursor: pointer;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* ==================== SCENE 1: THE BEGINNING ==================== */
+#scene1 .golden-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.golden-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ffd700;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ffd700, 0 0 20px rgba(255, 215, 0, 0.5);
+    animation: goldenFloat linear infinite;
+}
+
+@keyframes goldenFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% {
+        transform: translateY(-10vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.cinematic-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.8rem;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 2px 10px rgba(0,0,0,0.5);
+    opacity: 0;
+    margin: 20px 0;
+    max-width: 800px;
+}
+
+#scene1.active .text-line1 {
+    animation: fadeInUp 2s ease 0.5s forwards;
+}
+
+#scene1.active .text-line2 {
+    animation: fadeInUp 2s ease 2.5s forwards;
+}
+
+/* Light rays effect */
+#scene1::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 180deg at 50% 50%,
+        transparent 0deg,
+        rgba(255, 215, 0, 0.1) 20deg,
+        transparent 40deg,
+        rgba(255, 215, 0, 0.08) 60deg,
+        transparent 80deg,
+        rgba(255, 215, 0, 0.1) 100deg,
+        transparent 120deg,
+        rgba(255, 215, 0, 0.08) 140deg,
+        transparent 160deg,
+        rgba(255, 215, 0, 0.1) 180deg,
+        transparent 200deg,
+        rgba(255, 215, 0, 0.08) 220deg,
+        transparent 240deg,
+        rgba(255, 215, 0, 0.1) 260deg,
+        transparent 280deg,
+        rgba(255, 215, 0, 0.08) 300deg,
+        transparent 320deg,
+        rgba(255, 215, 0, 0.1) 340deg,
+        transparent 360deg
+    );
+    animation: rotateRays 30s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+}
+
+@keyframes rotateRays {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* ==================== SCENE 2: THE STAR ==================== */
+.spotlight-effect {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 100%;
+    background: linear-gradient(180deg,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 215, 0, 0.15) 30%,
+        rgba(255, 215, 0, 0.05) 60%,
+        transparent 100%
+    );
+    clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+    pointer-events: none;
+    z-index: 2;
+    animation: spotlightMove 5s ease-in-out infinite;
+}
+
+@keyframes spotlightMove {
+    0%, 100% { opacity: 0.6; transform: translateX(-50%) scaleX(1); }
+    50% { opacity: 1; transform: translateX(-50%) scaleX(1.2); }
+}
+
+.sparkles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: sparkleAnim ease-in-out infinite;
+}
+
+@keyframes sparkleAnim {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+.introducing {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: rgba(255, 215, 0, 0.9);
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    opacity: 0;
+    margin-bottom: 20px;
+}
+
+#scene2.active .introducing {
+    animation: fadeInUp 1.5s ease 0.5s forwards;
+}
+
+.movie-title {
+    font-family: 'Cinzel', serif;
+    font-size: 6rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.8),
+        0 0 40px rgba(255, 215, 0, 0.5),
+        0 0 80px rgba(255, 107, 107, 0.4);
+    opacity: 0;
+    letter-spacing: 15px;
+}
+
+#scene2.active .movie-title {
+    animation: titleReveal 2s ease 1.5s forwards, titleGlow 3s ease-in-out infinite 3.5s;
+}
+
+@keyframes titleReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(50px);
+        filter: blur(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes titleGlow {
+    0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.5); }
+    50% { text-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 80px rgba(255, 215, 0, 0.6), 0 0 120px rgba(255, 107, 107, 0.4); }
+}
+
+.heart {
+    color: #ff6b6b;
+    animation: heartbeat 1.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.3); }
+    70% { transform: scale(1); }
+}
+
+.subtitle {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 20px;
+    opacity: 0;
+}
+
+#scene2.active .subtitle {
+    animation: fadeInUp 1.5s ease 3s forwards;
+}
+/* ==================== SCENE 3: MEMORY MONTAGE ==================== */
+#scene3 {
+    background: #1a1a1a;
+}
+
+.montage-title {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: rgba(255, 215, 0, 0.9);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    z-index: 10;
+    opacity: 0;
+}
+
+#scene3.active .montage-title {
+    animation: fadeInUp 1.5s ease 0.3s forwards;
+}
+
+.photo-montage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.photo-slide {
+    position: absolute;
+    width: 280px;
+    height: 380px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.5),
+        0 0 0 8px #fff,
+        0 0 0 9px #ddd;
+    opacity: 0;
+    transform: rotateY(-30deg) translateZ(-200px);
+    transition: all 0.8s ease;
+}
+
+#scene3.active .photo1 { animation: photoAppear 1s ease 0.8s forwards, photoFloat 4s ease-in-out infinite 1.8s; }
+#scene3.active .photo2 { animation: photoAppear 1s ease 1.8s forwards, photoFloat 4s ease-in-out infinite 2.8s; }
+#scene3.active .photo3 { animation: photoAppear 1s ease 2.8s forwards, photoFloat 4s ease-in-out infinite 3.8s; }
+#scene3.active .photo4 { animation: photoAppear 1s ease 3.8s forwards, photoFloat 4s ease-in-out infinite 4.8s; }
+#scene3.active .photo5 { animation: photoAppear 1s ease 4.8s forwards, photoFloat 4s ease-in-out infinite 5.8s; }
+#scene3.active .photo6 { animation: photoAppear 1s ease 5.8s forwards, photoFloat 4s ease-in-out infinite 6.8s; }
+#scene3.active .photo7 { animation: photoAppear 1s ease 6.8s forwards, photoFloat 4s ease-in-out infinite 7.8s; }
+#scene3.active .photo8 { animation: photoAppear 1s ease 7.8s forwards, photoFloat 4s ease-in-out infinite 8.8s; }
+
+@keyframes photoAppear {
+    0% {
+        opacity: 0;
+        transform: rotateY(-30deg) translateZ(-200px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateY(0deg) translateZ(0) scale(1);
+    }
+}
+
+@keyframes photoFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(1deg); }
+    75% { transform: translateY(10px) rotate(-1deg); }
+}
+
+/* Position photos in a scattered collage */
+.photo1 { top: 10%; left: 8%; transform: rotate(-5deg); }
+.photo2 { top: 8%; right: 10%; transform: rotate(3deg); }
+.photo3 { top: 35%; left: 5%; transform: rotate(4deg); }
+.photo4 { top: 38%; right: 8%; transform: rotate(-3deg); }
+.photo5 { bottom: 12%; left: 12%; transform: rotate(2deg); }
+.photo6 { bottom: 10%; right: 12%; transform: rotate(-4deg); }
+.photo7 { top: 22%; left: 38%; transform: rotate(1deg); z-index: 5; width: 300px; height: 400px; }
+.photo8 { bottom: 18%; left: 35%; transform: rotate(-2deg); z-index: 4; }
+
+/* Film strips */
+.film-strip-top, .film-strip-bottom {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: repeating-linear-gradient(
+        90deg,
+        #1a1a1a 0px,
+        #1a1a1a 20px,
+        #333 20px,
+        #333 40px
+    );
+    z-index: 20;
+    opacity: 0.8;
+}
+
+.film-strip-top { top: 0; }
+.film-strip-bottom { bottom: 0; }
+
+/* ==================== SCENE 4: THE WISH SEQUENCE ==================== */
+.floating-petals {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.petal {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+    border-radius: 50% 0 50% 50%;
+    opacity: 0.8;
+    animation: petalFall linear infinite;
+}
+
+@keyframes petalFall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg) translateX(0);
+        opacity: 0;
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% {
+        transform: translateY(110vh) rotate(720deg) translateX(100px);
+        opacity: 0;
+    }
+}
+
+.wish-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    animation: wishGlow 4s ease-in-out infinite;
+}
+
+@keyframes wishGlow {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+.wish-container {
+    position: relative;
+    z-index: 5;
+    max-width: 800px;
+}
+
+.wish-line {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 2px 10px rgba(0,0,0,0.5);
+    margin: 15px 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#scene4.active .wish-line:nth-child(1) { animation: handwriting 2.5s steps(40) 0.5s forwards, fadeIn 0.5s 0.5s forwards; }
+#scene4.active .wish-line:nth-child(2) { animation: handwriting 2.5s steps(40) 3s forwards, fadeIn 0.5s 3s forwards; }
+#scene4.active .wish-line:nth-child(3) { animation: handwriting 2.5s steps(40) 5.5s forwards, fadeIn 0.5s 5.5s forwards; }
+#scene4.active .wish-line:nth-child(4) { animation: handwriting 2.5s steps(40) 8s forwards, fadeIn 0.5s 8s forwards; }
+#scene4.active .wish-line:nth-child(5) { animation: handwriting 3s steps(45) 10.5s forwards, fadeIn 0.5s 10.5s forwards, wishGlowText 2s ease-in-out infinite 13.5s; }
+
+@keyframes handwriting {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes wishGlowText {
+    0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+    50% { text-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 107, 107, 0.5); }
+}
+
+/* ==================== SCENE 5: THE BIRTHDAY SCENE ==================== */
+#scene5 {
+    overflow: hidden;
+}
+
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: confettiFall linear infinite;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.fireworks {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.firework {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    animation: fireworkExplode ease-out forwards;
+}
+
+@keyframes fireworkExplode {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.age-reveal {
+    position: relative;
+    z-index: 5;
+}
+
+.number-19 {
+    font-family: 'Cinzel', serif;
+    font-size: 15rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffd700, #ff6b6b, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
+    opacity: 0;
+    transform: scale(0);
+}
+
+#scene5.active .number-19 {
+    animation: ageReveal 1.5s ease 0.5s forwards, ageGlow 2s ease-in-out infinite 2s;
+}
+
+@keyframes ageReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-10deg);
+    }
+    50% {
+        transform: scale(1.2) rotate(5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes ageGlow {
+    0%, 100% { filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8)); }
+    50% { filter: drop-shadow(0 0 80px rgba(255, 215, 0, 1)) drop-shadow(0 0 120px rgba(255, 107, 107, 0.5)); }
+}
+
+.birthday-reveal {
+    position: relative;
+    z-index: 5;
+    margin-top: 30px;
+    opacity: 0;
+}
+
+#scene5.active .birthday-reveal {
+    animation: fadeInUp 1.5s ease 2s forwards;
+}
+
+.happy-birthday {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4.5rem;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+}
+
+.talat-name {
+    font-family: 'Cinzel', serif;
+    font-size: 5rem;
+    color: #fff;
+    margin-top: 10px;
+    text-shadow: 0 0 40px rgba(255, 107, 107, 0.8);
+}
+
+.heart-beat {
+    color: #ff6b6b;
+    animation: heartbeat 1s ease-in-out infinite;
+    display: inline-block;
+}
+
+/* ==================== SCENE 6: THE SECRET LETTER ==================== */
+#scene6 {
+    background: #0a0a0a;
+}
+
+.candle-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 147, 41, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    animation: candleFlicker 3s ease-in-out infinite;
+}
+
+@keyframes candleFlicker {
+    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+    25% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+    50% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.95); }
+    75% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.02); }
+}
+
+.letter-scene {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.letter-intro {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: rgba(255, 215, 0, 0.9);
+    margin-bottom: 30px;
+    opacity: 0;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+#scene6.active .letter-intro {
+    animation: fadeInUp 1.5s ease 0.3s forwards;
+}
+
+.envelope-container {
+    position: relative;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.envelope-container:hover {
+    transform: scale(1.05);
+}
+
+#scene6.active .envelope-container {
+    animation: fadeInUp 1.5s ease 1.5s forwards;
+}
+
+.envelope {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+    animation: envelopeFloat 3s ease-in-out infinite;
+}
+
+@keyframes envelopeFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.click-hint {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: rgba(255, 215, 0, 0.8);
+    white-space: nowrap;
+    animation: blink 2s ease-in-out infinite;
+}
+
+.letter-content {
+    display: none;
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    opacity: 0;
+}
+
+.letter-content.open {
+    display: block;
+    animation: letterOpen 1s ease forwards;
+}
+
+@keyframes letterOpen {
+    from {
+        opacity: 0;
+        transform: scale(0.8) rotateX(20deg);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotateX(0deg);
+    }
+}
+
+.letter-paper {
+    background: linear-gradient(135deg, #f5e6d3, #faf0e6);
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.3),
+        inset 0 0 60px rgba(139, 69, 19, 0.1);
+    position: relative;
+}
+
+.letter-paper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.1'/%3E%3C/svg%3E");
+    pointer-events: none;
+    border-radius: 5px;
+}
+
+.letter-text {
+    position: relative;
+    z-index: 2;
+}
+
+.letter-dear {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: #8b4513;
+    margin-bottom: 20px;
+    opacity: 0;
+}
+
+.letter-body {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: #5d4037;
+    line-height: 1.8;
+    margin: 10px 0;
+    opacity: 0;
+}
+
+.letter-close {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #8b4513;
+    margin-top: 30px;
+    text-align: right;
+    opacity: 0;
+}
+
+.letter-signature {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5rem;
+    color: #c62828;
+    text-align: right;
+    margin-top: 10px;
+    opacity: 0;
+}
+
+/* Letter writing animation */
+.letter-content.open .letter-dear {
+    animation: fadeInUp 1s ease 0.5s forwards;
+}
+
+.letter-content.open .line1 { animation: fadeInUp 1s ease 1s forwards; }
+.letter-content.open .line2 { animation: fadeInUp 1s ease 1.8s forwards; }
+.letter-content.open .line3 { animation: fadeInUp 1s ease 2.6s forwards; }
+.letter-content.open .line4 { animation: fadeInUp 1s ease 3.4s forwards; }
+.letter-content.open .line5 { animation: fadeInUp 1s ease 4.2s forwards; }
+.letter-content.open .line6 { animation: fadeInUp 1s ease 5s forwards; }
+.letter-content.open .line7 { animation: fadeInUp 1s ease 5.8s forwards; }
+.letter-content.open .line8 { animation: fadeInUp 1s ease 6.6s forwards; }
+.letter-content.open .letter-close { animation: fadeInUp 1s ease 7.4s forwards; }
+.letter-content.open .letter-signature { animation: fadeInUp 1.5s ease 8s forwards, signatureGlow 2s ease-in-out infinite 9.5s; }
+
+@keyframes signatureGlow {
+    0%, 100% { text-shadow: 0 0 10px rgba(198, 40, 40, 0.5); }
+    50% { text-shadow: 0 0 30px rgba(198, 40, 40, 0.8); }
+}
+
+/* ==================== SCENE 7: THE MAGIC OF YOU ==================== */
+.magic-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.magic-particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: magicFloat linear infinite;
+}
+
+@keyframes magicFloat {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    90% { opacity: 1; }
+    100% {
+        transform: translateY(-10vh) scale(0);
+        opacity: 0;
+    }
+}
+
+.magic-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 800px;
+}
+
+.magic-message {
+    opacity: 0;
+    transform: translateX(-50px);
+    text-align: center;
+}
+
+.magic-message .stars {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    letter-spacing: 10px;
+}
+
+.magic-message p {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 2px 10px rgba(0,0,0,0.5);
+}
+
+#scene7.active .msg1 { animation: slideInMessage 1.5s ease 0.5s forwards; }
+#scene7.active .msg2 { animation: slideInMessage 1.5s ease 2.5s forwards; }
+#scene7.active .msg3 { animation: slideInMessage 1.5s ease 4.5s forwards; }
+#scene7.active .msg4 { animation: slideInMessage 1.5s ease 6.5s forwards; }
+
+@keyframes slideInMessage {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ==================== FINAL SCENE: ENDING CREDITS ==================== */
+#scene-ending {
+    background: #000;
+}
+
+#scene-ending .bg-image {
+    opacity: 0.7;
+}
+
+.projector-fade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+        rgba(0,0,0,0.8) 0%,
+        rgba(0,0,0,0.3) 30%,
+        rgba(0,0,0,0.3) 70%,
+        rgba(0,0,0,0.9) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+}
+
+.credits-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 5;
+    perspective: 400px;
+}
+
+.credits-roll {
+    position: absolute;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+#scene-ending.active .credits-roll {
+    animation: creditsScroll 25s linear 1s forwards;
+}
+
+@keyframes creditsScroll {
+    from { bottom: -100%; }
+    to { bottom: 100%; }
+}
+
+.credits-section {
+    margin: 60px 0;
+}
+
+.credits-heading {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: rgba(255, 215, 0, 0.9);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.credits-name {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(255, 107, 107, 0.6);
+}
+
+.credits-item {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 8px 0;
+}
+
+.credits-heart {
+    font-size: 3rem;
+    animation: heartbeat 1.5s ease-in-out infinite;
+    margin: 20px 0;
+}
+
+.credits-signature {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3rem;
+    color: #ff6b6b;
+    text-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+}
+
+.credits-the-end {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #ffd700;
+    letter-spacing: 15px;
+    margin: 80px 0;
+    text-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+}
+
+/* ==================== POST CREDIT SCENE ==================== */
+#scene-postcredit {
+    background: #000;
+}
+
+.post-credit-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(30, 30, 30, 1) 0%, #000 100%);
+}
+
+.tiny-projector-light {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 150px;
+    background: linear-gradient(180deg,
+        rgba(255, 215, 0, 0.2) 0%,
+        transparent 100%
+    );
+    clip-path: polygon(45% 0%, 55% 0%, 100% 100%, 0% 100%);
+    animation: tinyLight 3s ease-in-out infinite;
+}
+
+@keyframes tinyLight {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+.post-credit-text {
+    position: relative;
+    z-index: 5;
+}
+
+.final-line {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    opacity: 0;
+}
+
+#scene-postcredit.active .final-line {
+    animation: fadeInUp 2s ease 1s forwards;
+}
+
+.final-heart {
+    font-size: 4rem;
+    margin-top: 30px;
+    opacity: 0;
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+#scene-postcredit.active .final-heart {
+    animation: fadeInUp 2s ease 3s forwards, heartbeat 2s ease-in-out infinite 5s;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .opening-line1 {
+        font-size: 1.2rem;
+        letter-spacing: 4px;
+    }
+    
+    .opening-line2 {
+        font-size: 2.5rem;
+    }
+    
+    .movie-title {
+        font-size: 3.5rem;
+        letter-spacing: 8px;
+    }
+    
+    .cinematic-text {
+        font-size: 1.8rem;
+    }
+    
+    .number-19 {
+        font-size: 8rem;
+    }
+    
+    .happy-birthday {
+        font-size: 2.5rem;
+    }
+    
+    .talat-name {
+        font-size: 3rem;
+    }
+    
+    .wish-line {
+        font-size: 1.6rem;
+        white-space: normal;
+    }
+    
+    .magic-message p {
+        font-size: 1.6rem;
+    }
+    
+    .photo-slide {
+        width: 180px;
+        height: 240px;
+    }
+    
+    .nav-dots {
+        right: 10px;
+    }
+    
+    .dot {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .letter-paper {
+        padding: 20px;
+    }
+    
+    .letter-body {
+        font-size: 1.1rem;
+    }
+}

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Movie of Talat ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Audio -->
+    <audio id="bgMusic" loop>
+        <source src="images/romantic-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Control Button -->
+    <div id="musicControl" class="music-control">
+        <span id="musicIcon">🎵</span>
+    </div>
+
+    <!-- Dust Particles Container -->
+    <div id="particlesContainer" class="particles-container"></div>
+
+    <!-- ==================== OPENING SCENE ==================== -->
+    <section id="scene-opening" class="scene active">
+        <div class="bg-image" style="background-image: url('images/bg-opening.jpg')"></div>
+        <div class="film-grain"></div>
+        <div class="opening-content">
+            <div class="film-reel-container">
+                <img src="images/filmreel.png" alt="Film Reel" class="film-reel">
+            </div>
+            <div class="projector-light"></div>
+            <div class="opening-text-container">
+                <p class="opening-line1">Tonight's Special Screening</p>
+                <p class="opening-line2">The Movie Of <span class="highlight">Talat ❤️</span></p>
+            </div>
+            <div class="curtain-container">
+                <img src="images/curtains.png" alt="Curtains" class="curtain curtain-left">
+                <img src="images/curtains.png" alt="Curtains" class="curtain curtain-right">
+            </div>
+        </div>
+        <div class="click-to-start">Click anywhere to begin the movie ✨</div>
+    </section>
+
+    <!-- ==================== SCENE 1: THE BEGINNING ==================== -->
+    <section id="scene1" class="scene">
+        <div class="bg-image" style="background-image: url('images/bg-scene1.jpg')"></div>
+        <div class="film-grain"></div>
+        <div class="old-film-frame"></div>
+        <div class="golden-particles" id="goldenParticles"></div>
+        <div class="scene-content">
+            <p class="cinematic-text text-line1">Every beautiful story has a beginning...</p>
+            <p class="cinematic-text text-line2">And this one starts with someone special.</p>
+        </div>
+    </section>
+
+    <!-- ==================== SCENE 2: THE STAR ==================== -->
+    <section id="scene2" class="scene">
+        <div class="bg-image" style="background-image: url('images/bg-scene2.jpg')"></div>
+        <div class="spotlight-effect"></div>
+        <div class="sparkles" id="sparkles"></div>
+        <div class="scene-content">
+            <p class="introducing">Introducing</p>
+            <h1 class="movie-title">TALAT <span class="heart">❤️</span></h1>
+            <p class="subtitle">The Star of Our Movie</p>
+        </div>
+    </section>
+
+    <!-- ==================== SCENE 3: MEMORY MONTAGE ==================== -->
+    <section id="scene3" class="scene">
+        <div class="bg-image" style="background-image: url('images/bg-scene3.jpg')"></div>
+        <div class="film-grain"></div>
+        <div class="montage-title">Memory Montage</div>
+        <div class="photo-montage">
+            <div class="photo-slide photo1" style="background-image: url('images/photo1.jpg')"></div>
+            <div class="photo-slide photo2" style="background-image: url('images/photo2.jpg')"></div>
+            <div class="photo-slide photo3" style="background-image: url('images/photo3.jpg')"></div>
+            <div class="photo-slide photo4" style="background-image: url('images/photo4.jpg')"></div>
+            <div class="photo-slide photo5" style="background-image: url('images/photo5.jpg')"></div>
+            <div class="photo-slide photo6" style="background-image: url('images/photo6.jpg')"></div>
+            <div class="photo-slide photo7" style="background-image: url('images/photo7.jpg')"></div>
+            <div class="photo-slide photo8" style="background-image: url('images/photo8.jpg')"></div>
+        </div>
+        <div class="film-strip-top"></div>
+        <div class="film-strip-bottom"></div>
+    </section>
+
+    <!-- ==================== SCENE 4: THE WISH SEQUENCE ==================== -->
+    <section id="scene4" class="scene">
+        <div class="bg-image" style="background-image: url('images/bg-scene4.jpg')"></div>
+        <div class="floating-petals" id="floatingPetals"></div>
+        <div class="wish-glow"></div>
+        <div class="scene-content">
+            <div class="wish-container">
+                <p class="wish-line handwriting" data-text="On this special day, I wish you..."></p>
+                <p class="wish-line handwriting" data-text="A year filled with laughter and joy..."></p>
+                <p class="wish-line handwriting" data-text="Dreams that come true..."></p>
+                <p class="wish-line handwriting" data-text="And a love that never fades..."></p>
+                <p class="wish-line handwriting" data-text="Happy Birthday, my beautiful Talat ❤️"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SCENE 5: THE BIRTHDAY SCENE ==================== -->
+    <section id="scene5" class="scene">
+        <div class="bg-image" style="background-image: url('images/bg-scene5.jpg')"></div>
+        <div class="confetti-container" id="confettiContainer"></div>
+        <div class="fireworks" id="fireworks"></div>
+        <div class="scene-content">
+            <div class="age-reveal">
+                <div class="number-19">19</div>
+            </div>
+            <div class="birthday-reveal">
+                <h2 class="happy-birthday">Happy Birthday</h2>
+                <h1 class="talat-name">Talat <span class="heart-beat">❤️</span></h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SCENE 6: THE SECRET LETTER ==================== -->
+    <section id="scene6" class="scene">
+        <div class="bg-image" style="background-image: url('images/bg-scene6.jpg')"></div>
+        <div class="candle-glow"></div>
+        <div class="scene-content">
+            <div class="letter-scene">
+                <p class="letter-intro">A special letter awaits you...</p>
+                <div class="envelope-container" id="envelopeContainer">
+                    <img src="images/envelope.png" alt="Secret Letter" class="envelope">
+                    <div class="click-hint">💌 Click to open</div>
+                </div>
+                <div class="letter-content" id="letterContent">
+                    <div class="letter-paper">
+                        <div class="letter-text">
+                            <p class="letter-dear">My Dearest Talat,</p>
+                            <p class="letter-body line1">From the moment you entered my life, everything changed.</p>
+                            <p class="letter-body line2">You brought colors to my black and white world.</p>
+                            <p class="letter-body line3">Your smile is the first thing I think of every morning.</p>
+                            <p class="letter-body line4">And your laughter is the melody my heart dances to.</p>
+                            <p class="letter-body line5">You are not just special — you are my everything.</p>
+                            <p class="letter-body line6">On your 19th birthday, I want you to know...</p>
+                            <p class="letter-body line7">That my love for you grows stronger with every passing day.</p>
+                            <p class="letter-body line8">You are my today, my tomorrow, and my forever.</p>
+                            <p class="letter-close">Forever Yours,</p>
+                            <p class="letter-signature">Ashish ❤️</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SCENE 7: THE MAGIC OF YOU ==================== -->
+    <section id="scene7" class="scene">
+        <div class="bg-image" style="background-image: url('images/bg-scene7.jpg')"></div>
+        <div class="magic-particles" id="magicParticles"></div>
+        <div class="scene-content">
+            <div class="magic-messages">
+                <div class="magic-message msg1">
+                    <div class="stars">✨ ✨ ✨</div>
+                    <p>You make ordinary days feel special.</p>
+                </div>
+                <div class="magic-message msg2">
+                    <div class="stars">🌟 🌟 🌟</div>
+                    <p>You are stronger than you know.</p>
+                </div>
+                <div class="magic-message msg3">
+                    <div class="stars">💫 💫 💫</div>
+                    <p>You are loved more than you realize.</p>
+                </div>
+                <div class="magic-message msg4">
+                    <div class="stars">❤️ ❤️ ❤️</div>
+                    <p>You are the magic in my life.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FINAL SCENE: ENDING CREDITS ==================== -->
+    <section id="scene-ending" class="scene">
+        <div class="bg-image" style="background-image: url('images/bg-ending.jpg')"></div>
+        <div class="film-grain"></div>
+        <div class="projector-fade"></div>
+        <div class="credits-container">
+            <div class="credits-roll">
+                <div class="credits-section">
+                    <h3 class="credits-heading">Starring</h3>
+                    <p class="credits-name">Talat ❤️</p>
+                </div>
+                <div class="credits-section">
+                    <h3 class="credits-heading">Special Thanks</h3>
+                    <p class="credits-item">Your Smile</p>
+                    <p class="credits-item">Your Kindness</p>
+                    <p class="credits-item">Your Presence</p>
+                    <p class="credits-item">Your Love</p>
+                </div>
+                <div class="credits-section">
+                    <h3 class="credits-heading">Happy 19th Birthday</h3>
+                    <p class="credits-heart">❤️</p>
+                </div>
+                <div class="credits-section">
+                    <h3 class="credits-heading">With Love</h3>
+                    <p class="credits-signature">Ashish</p>
+                </div>
+                <div class="credits-the-end">THE END</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== POST CREDIT SCENE ==================== -->
+    <section id="scene-postcredit" class="scene">
+        <div class="post-credit-bg"></div>
+        <div class="tiny-projector-light"></div>
+        <div class="scene-content">
+            <div class="post-credit-text">
+                <p class="final-line">"The best stories never really end."</p>
+                <p class="final-heart">❤️</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation dots -->
+    <div class="nav-dots" id="navDots">
+        <div class="dot active" data-scene="0"></div>
+        <div class="dot" data-scene="1"></div>
+        <div class="dot" data-scene="2"></div>
+        <div class="dot" data-scene="3"></div>
+        <div class="dot" data-scene="4"></div>
+        <div class="dot" data-scene="5"></div>
+        <div class="dot" data-scene="6"></div>
+        <div class="dot" data-scene="7"></div>
+        <div class="dot" data-scene="8"></div>
+        <div class="dot" data-scene="9"></div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
